@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 import java.util.UUID;
@@ -59,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -81,22 +83,43 @@ public class AuthController {
             String signupUrl = supabaseAuthUrl + "/signup";
             ResponseEntity<Map> response = restTemplate.postForEntity(signupUrl, entity, Map.class);
 
-            Map<String, Object> userMap = (Map<String, Object>) response.getBody().get("user");
-            UUID supabaseId = UUID.fromString(userMap.get("id").toString());
+            if (response.getBody() != null && response.getBody().get("user") != null) {
+                Map<String, Object> userMap = (Map<String, Object>) response.getBody().get("user");
+                UUID supabaseId = UUID.fromString(userMap.get("id").toString());
 
-            UserProfile userProfile = new UserProfile(
-                    supabaseId,
-                    request.getFirstName(),
-                    request.getLastName(),
-                    request.getEmail()
-            );
+                UserProfile userProfile = new UserProfile(
+                        supabaseId,
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getEmail()
+                );
 
-            profileRepository.save(userProfile);
+                profileRepository.save(userProfile);
 
-            return ResponseEntity.ok(Map.of("message", "Success: User registered successfully"));
+                return ResponseEntity.ok(Map.of("message", "Success: User registered successfully"));
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("message", "Registration failed"));
+            }
+
+        } catch (HttpClientErrorException e) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> errorBody = mapper.readValue(e.getResponseBodyAsString(), Map.class);
+                String msg = errorBody.get("msg") != null ? errorBody.get("msg").toString() : "Registration failed";
+
+                return ResponseEntity.status(e.getStatusCode())
+                        .body(Map.of("message", msg));
+
+            } catch (Exception parseEx) {
+                return ResponseEntity.status(e.getStatusCode())
+                        .body(Map.of("message", "Registration failed"));
+            }
         } catch (Exception e) {
+            // other unexpected errors
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", "Failed: Registration could not be completed" + e.getMessage()));
+                    .body(Map.of("message", "Registration failed: " + e.getMessage()));
         }
     }
 }

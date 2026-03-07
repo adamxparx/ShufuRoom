@@ -26,7 +26,7 @@ public class ProfileController {
                 .orElseThrow(() -> new RuntimeException("Profile not found."));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/me")
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal Jwt jwt,
                                            @RequestBody EditProfile updateData) {
         UUID userId = UUID.fromString(jwt.getSubject());
@@ -44,7 +44,7 @@ public class ProfileController {
 
             return ResponseEntity.ok(Map.of("message", "Success: Profile updated successfully",
                     "updatedProfile", existingProfile));
-        }).orElse(ResponseEntity.status(404).body("Error: Profile not found"));
+        }).orElse(ResponseEntity.status(404).body(Map.of("error", "Profile not found")));
     }
 
 }
