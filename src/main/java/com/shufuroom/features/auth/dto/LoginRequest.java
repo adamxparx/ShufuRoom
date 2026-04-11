@@ -1,4 +1,4 @@
-package com.shufuroom.dto;
+package com.shufuroom.features.auth.dto;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.shufuroom.dto;
+package com.shufuroom.features.profile.dto;
 
 public class EditProfile {
     private String firstName;

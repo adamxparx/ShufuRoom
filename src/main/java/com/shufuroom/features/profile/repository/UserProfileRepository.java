@@ -1,6 +1,6 @@
-package com.shufuroom.repository;
+package com.shufuroom.features.profile.repository;
 
-import com.shufuroom.model.UserProfile;
+import com.shufuroom.features.profile.model.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
