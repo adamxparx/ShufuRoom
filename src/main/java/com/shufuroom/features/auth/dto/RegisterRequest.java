@@ -1,4 +1,4 @@
-package com.shufuroom.dto;
+package com.shufuroom.features.auth.dto;
 
 public class RegisterRequest {
     private String email;

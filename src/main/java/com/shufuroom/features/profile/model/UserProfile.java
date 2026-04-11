@@ -1,4 +1,4 @@
-package com.shufuroom.model;
+package com.shufuroom.features.profile.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

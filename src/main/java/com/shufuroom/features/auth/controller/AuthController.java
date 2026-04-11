@@ -1,11 +1,11 @@
-package com.shufuroom.controller;
+package com.shufuroom.features.auth.controller;
 
-import com.shufuroom.dto.ChangePasswordRequest;
-import com.shufuroom.dto.LoginRequest;
-import com.shufuroom.dto.LoginResponse;
-import com.shufuroom.dto.RegisterRequest;
-import com.shufuroom.model.UserProfile;
-import com.shufuroom.repository.UserProfileRepository;
+import com.shufuroom.features.auth.dto.ChangePasswordRequest;
+import com.shufuroom.features.auth.dto.LoginRequest;
+import com.shufuroom.features.auth.dto.LoginResponse;
+import com.shufuroom.features.auth.dto.RegisterRequest;
+import com.shufuroom.features.profile.model.UserProfile;
+import com.shufuroom.features.profile.repository.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

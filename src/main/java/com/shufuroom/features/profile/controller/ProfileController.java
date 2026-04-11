@@ -1,7 +1,8 @@
-package com.shufuroom.controller;
+package com.shufuroom.features.profile.controller;
 
-import com.shufuroom.dto.EditProfile;
-import com.shufuroom.repository.UserProfileRepository;
+import com.shufuroom.features.profile.dto.EditProfile;
+import com.shufuroom.features.profile.repository.UserProfileRepository;
+import com.shufuroom.features.profile.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
