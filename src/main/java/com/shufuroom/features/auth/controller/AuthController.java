@@ -1,6 +1,6 @@
 package com.shufuroom.features.auth.controller;
 
-import com.shufuroom.features.auth.dto.ChangePasswordRequest;
+import com.shufuroom.features.profile.dto.ChangePasswordRequest;
 import com.shufuroom.features.auth.dto.LoginRequest;
 import com.shufuroom.features.auth.dto.LoginResponse;
 import com.shufuroom.features.auth.dto.RegisterRequest;

@@ -1,4 +1,4 @@
-package com.shufuroom.features.auth.dto;
+package com.shufuroom.features.profile.dto;
 
 public class ChangePasswordRequest {
     private String currentPassword;
