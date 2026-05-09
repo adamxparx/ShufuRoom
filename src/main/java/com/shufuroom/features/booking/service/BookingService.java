@@ -15,14 +15,16 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    // Importing across feature boundaries is normal and expected here
     @Autowired
     private RoomService roomService; 
 
     public Booking createBooking(Booking booking, String guestId) {
         Room room = roomService.getRoomById(booking.getRoomId()); // Verify room exists
         booking.setGuestId(guestId);
-        booking.setStatus(Booking.BookingStatus.PENDING);
+        
+        // FIXED: Using a standard String instead of the Enum
+        booking.setStatus("PENDING"); 
+        
         return bookingRepository.save(booking);
     }
 
@@ -30,11 +32,11 @@ public class BookingService {
         return bookingRepository.findByGuestId(guestId);
     }
 
-    public List<Booking> getMyRequests(String hostId) {
-        return bookingRepository.findRequestsByHostId(hostId);
-    }
+    // FIXED: Removed the broken getMyRequests method entirely! 
+    // We handle this directly in the BookingController using the Room ID now.
 
-    public Booking updateBookingStatus(Long bookingId, Booking.BookingStatus newStatus, String hostId) {
+    // FIXED: Changed 'Booking.BookingStatus newStatus' to 'String newStatus'
+    public Booking updateBookingStatus(Long bookingId, String newStatus, String hostId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
@@ -43,7 +45,8 @@ public class BookingService {
             throw new RuntimeException("Unauthorized: You do not own this room.");
         }
 
-        booking.setStatus(newStatus);
+        // FIXED: Using the standard String
+        booking.setStatus(newStatus.toUpperCase());
         return bookingRepository.save(booking);
     }
 }
