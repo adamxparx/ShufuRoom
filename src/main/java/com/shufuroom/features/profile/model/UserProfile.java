@@ -3,14 +3,15 @@ package com.shufuroom.features.profile.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.UUID;
+import java.util.UUID; // Bring this back!
 
 @Entity
 @Table(name = "profiles")
 public class UserProfile {
 
     @Id
-    private UUID id;
+    private UUID id; // REVERTED BACK TO UUID!
+    
     private String firstName;
     private String lastName;
     private String email;
@@ -28,6 +29,7 @@ public class UserProfile {
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public String getEmail() { return email; }
+    
     public void setId(UUID id) { this.id = id; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
